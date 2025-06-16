@@ -94,7 +94,7 @@ static void print_number(long num, int base, int minWidth, int padZero)
 	}
 }
 
-void printf(const char *fmt, ...)
+int printf(const char *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
