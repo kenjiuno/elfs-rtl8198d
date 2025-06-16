@@ -112,7 +112,13 @@ int printf(const char *fmt, ...)
 		{
 			fmt++; // '%'の次の文字に進む
 			int min_width = 0;
-			int padding_char = ' ';
+			int pad_zero = 0;
+
+			if (*fmt == '0') // パディング文字がゼロの場合
+			{
+				pad_zero = 1;
+				fmt++;
+			}
 
 			// 最小幅指定
 			while (*fmt >= '0' && *fmt <= '9')
@@ -131,21 +137,21 @@ int printf(const char *fmt, ...)
 					putchar('-');
 					val = -val;
 				}
-				print_number(val, 10, min_width, padding_char, hexl_digits);
+				print_number(val, 10, min_width, pad_zero, hexl_digits);
 				break;
 			}
 			case 'u':
-				print_number(va_arg(args, unsigned), 10, min_width, padding_char, hexl_digits);
+				print_number(va_arg(args, unsigned), 10, min_width, pad_zero, hexl_digits);
 				break;
 			case 'x':
-				print_number(va_arg(args, unsigned), 16, min_width, padding_char, hexl_digits);
+				print_number(va_arg(args, unsigned), 16, min_width, pad_zero, hexl_digits);
 				break;
 			case 'X':
-				print_number(va_arg(args, unsigned), 16, min_width, padding_char, hexu_digits);
+				print_number(va_arg(args, unsigned), 16, min_width, pad_zero, hexu_digits);
 				break;
 			case 'p':
 				print_string("0x");
-				print_number((unsigned long)va_arg(args, void *), 16, min_width, padding_char, hexl_digits);
+				print_number((unsigned long)va_arg(args, void *), 16, min_width, pad_zero, hexl_digits);
 				break;
 			case 's':
 				print_string(va_arg(args, char *));
