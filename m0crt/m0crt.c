@@ -158,3 +158,10 @@ int printf(const char *fmt, ...)
 }
 
 // ← by gpt-4
+
+int puts(const char *str)
+{
+	print_string(str);
+	print_char('\n');
+	return 1;
+}
