@@ -7,7 +7,7 @@ extern int main();
 // by gpt-4 →
 
 // UART レジスタの定義
-#define UART_BASE 0x18002000
+#define UART_BASE 0xB8002000
 #define UART_THR (UART_BASE + 0x00) // トランスミッタ ホールディング レジスタ
 #define UART_LSR (UART_BASE + 0x14) // ライン ステータス レジスタ
 
