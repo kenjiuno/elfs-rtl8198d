@@ -36,6 +36,10 @@ void uart_putc(char c)
 int putchar(int c)
 {
 	uart_putc(c);
+	if (c == '\n')
+	{
+		uart_putc('\r'); // 改行の後にキャリッジリターンを送信
+	}
 	return 1;
 }
 
