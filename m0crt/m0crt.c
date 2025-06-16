@@ -63,7 +63,10 @@ static void print_string(const char *str)
 	}
 }
 
-static void print_number(long num, int base, int minWidth, int padZero)
+static const char hexu_digits[] = "0123456789ABCDEF";
+static const char hexl_digits[] = "0123456789abcdef";
+
+static void print_number(long num, int base, int minWidth, int padZero, const char *digits)
 {
 	char buffer[20]; // バッファは長さの十分あるサイズを選択
 	int pos = 0;
@@ -78,7 +81,7 @@ static void print_number(long num, int base, int minWidth, int padZero)
 	do
 	{
 		int digit = num % base;
-		buffer[pos++] = (digit < 10) ? (digit + '0') : (digit - 10 + 'A');
+		buffer[pos++] = digits[digit];
 		num /= base;
 	} while (num != 0);
 
@@ -128,18 +131,21 @@ int printf(const char *fmt, ...)
 					putchar('-');
 					val = -val;
 				}
-				print_number(val, 10, min_width, padding_char);
+				print_number(val, 10, min_width, padding_char, hexl_digits);
 				break;
 			}
 			case 'u':
-				print_number(va_arg(args, unsigned), 10, min_width, padding_char);
+				print_number(va_arg(args, unsigned), 10, min_width, padding_char, hexl_digits);
+				break;
+			case 'x':
+				print_number(va_arg(args, unsigned), 16, min_width, padding_char, hexl_digits);
 				break;
 			case 'X':
-				print_number(va_arg(args, unsigned), 16, min_width, padding_char);
+				print_number(va_arg(args, unsigned), 16, min_width, padding_char, hexu_digits);
 				break;
 			case 'p':
 				print_string("0x");
-				print_number((unsigned long)va_arg(args, void *), 16, min_width, padding_char);
+				print_number((unsigned long)va_arg(args, void *), 16, min_width, padding_char, hexl_digits);
 				break;
 			case 's':
 				print_string(va_arg(args, char *));
